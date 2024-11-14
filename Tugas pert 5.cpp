@@ -1,68 +1,66 @@
 #include <iostream>
-#include <string>
-
 using namespace std;
 
+// Konstanta gaji pokok dan tunjangan
+const int GAJI_POKOK_PER_JAM = 7500;
+const float TARIF_LEMBUR = 1.5;
+const int UANG_MAKAN = 10000;
+const int UANG_TRANSPORT = 13000;
+
 // Fungsi untuk menghitung gaji pokok
-double pokok(int jamKerja) {
-  return jamKerja * 7500;
+int pokok(int jamKerja) {
+    return jamKerja * GAJI_POKOK_PER_JAM;
 }
 
-// Fungsi untuk menghitung lembur
-double lembur(int jamKerja) {
-  if (jamKerja > 8) {
-    return (jamKerja - 8) * 7500 * 1.5;
-  } else {
+// Fungsi untuk menghitung gaji lembur
+int lembur(int jamKerja) {
+    if (jamKerja > 8) {
+        int jamLembur = jamKerja - 8;
+        return jamLembur * GAJI_POKOK_PER_JAM * TARIF_LEMBUR;
+    }
     return 0;
-  }
 }
 
 // Fungsi untuk menghitung uang makan
-double makan(int jamKerja) {
-  if (jamKerja >= 9) {
-    return 10000;
-  } else {
-    return 0;
-  }
+int makan(int jamKerja) {
+    return (jamKerja >= 9) ? UANG_MAKAN : 0;
 }
 
 // Fungsi untuk menghitung uang transport lembur
-double transport(int jamKerja) {
-  if (jamKerja >= 10) {
-    return 13000;
-  } else {
-    return 0;
-  }
+int transport(int jamKerja) {
+    return (jamKerja >= 10) ? UANG_TRANSPORT : 0;
 }
 
-// Fungsi utama
 int main() {
-  string nip, nama;
-  int jamKerja;
+    string NIP, nama;
+    int jamKerja;
 
-  cout << "Masukkan NIP: ";
-  cin >> nip;
-  cout << "Masukkan Nama: ";
-  cin.ignore(); // Membersihkan buffer input
-  getline(cin, nama);
-  cout << "Masukkan Jumlah Jam Kerja: ";
-  cin >> jamKerja;
+    // Input data karyawan
+    cout << "Masukkan NIP karyawan: ";
+    cin >> NIP;
+    cout << "Masukkan Nama karyawan: ";
+    cin.ignore();
+    getline(cin, nama);
+    cout << "Masukkan jumlah jam kerja: ";
+    cin >> jamKerja;
 
-  // Memanggil fungsi-fungsi untuk menghitung gaji
-  double gajiPokok = pokok(jamKerja);
-  double lemburKaryawan = lembur(jamKerja);
-  double uangMakanKaryawan = makan(jamKerja);
-  double uangTransportLembur = transport(jamKerja);
+    // Menghitung komponen gaji
+    int gajiPokok = pokok(jamKerja);
+    int gajiLembur = lembur(jamKerja);
+    int uangMakan = makan(jamKerja);
+    int uangTransport = transport(jamKerja);
 
-  // Menampilkan output
-  cout << "\n-------------------- Rincian Gaji --------------------" << endl;
-  cout << "NIP: " << nip << endl;
-  cout << "Nama: " << nama << endl;
-  cout << "Gaji Pokok: Rp. " << gajiPokok << endl;
-  cout << "Lembur: Rp. " << lemburKaryawan << endl;
-  cout << "Uang Makan: Rp. " << uangMakanKaryawan << endl;
-  cout << "Transport Lembur: Rp. " << uangTransportLembur << endl;
-  cout << "-----------------------------------------------------" << endl;
+    // Output data karyawan dan komponen gaji
+    cout << "\n=== Rincian Gaji Harian ===\n";
+    cout << "NIP            : " << NIP << endl;
+    cout << "Nama           : " << nama << endl;
+    cout << "Gaji Pokok     : Rp. " << gajiPokok << endl;
+    cout << "Lembur         : Rp. " << gajiLembur << endl;
+    cout << "Uang Makan     : Rp. " << uangMakan << endl;
+    cout << "Uang Transport : Rp. " << uangTransport << endl;
 
-  return 0;
+    int totalGaji = gajiPokok + gajiLembur + uangMakan + uangTransport;
+    cout << "Total Gaji     : Rp. " << totalGaji << endl;
+
+    return 0;
 }
